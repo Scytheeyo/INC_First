@@ -5,37 +5,37 @@ import HomePage from "./pages/HomePage";
 import AboutPage from "./pages/AboutPage";
 import ProjectsPage from "./pages/ProjectsPage";
 import ContactPage from "./pages/ContactPage";
+import CalculatePage from "./pages/CalculatePage";
 import Header from "./layout/Header";
 import Footer from "./layout/Footer";
 
+/**
+ * 메인 앱 컴포넌트
+ * 로그인 상태와 currentPage 상태에 따라 페이지를 렌더링합니다.
+ * HomePage에는 setCurrentPage prop을 전달해 홈에서 페이지 이동이 가능합니다.
+ */
 const App = () => {
-  // 로그인 상태를 관리하는 state
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [currentPage, setCurrentPage] = useState("home");
 
-  // 로그인 처리 함수
-  const handleLogin = (username, password) => {
-    // 실제로는 서버와 통신해야 하지만, 데모용으로 간단히 구현
-    if (username === "admin" && password === "1234") {
-      setIsLoggedIn(true);
-      return true;
-    }
-    return false;
+  const handleLogin = () => {
+    setIsLoggedIn(true);
   };
 
-  // 페이지 렌더링 함수
   const renderPage = () => {
     switch (currentPage) {
       case "home":
-        return <HomePage />;
+        return <HomePage setCurrentPage={setCurrentPage} />; // 수정: setCurrentPage 전달
       case "about":
         return <AboutPage />;
       case "projects":
-        return <ProjectsPage />;
+        return <ProjectsPage setCurrentPage={setCurrentPage} />;
       case "contact":
         return <ContactPage />;
+      case "calculate":
+        return <CalculatePage />;
       default:
-        return <HomePage />;
+        return <HomePage setCurrentPage={setCurrentPage} />;
     }
   };
 
@@ -43,7 +43,11 @@ const App = () => {
     <div className="app">
       <Header currentPage={currentPage} setCurrentPage={setCurrentPage} />
       <main className="main-content">
-        {!isLoggedIn ? <LoginPage onLogin={handleLogin} /> : renderPage()}
+        {!isLoggedIn ? (
+          <LoginPage onLogin={handleLogin} />
+        ) : (
+          renderPage()
+        )}
       </main>
       <Footer />
     </div>
