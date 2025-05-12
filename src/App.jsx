@@ -27,7 +27,11 @@ const App = () => {
   const renderPage = () => {
     switch (currentPage) {
       case "home":
+<<<<<<< Updated upstream
         return <HomePage />;
+=======
+        return <HomePage setCurrentPage={setCurrentPage} />; // 수정: setCurrentPage 전달 클릭해서 이동할 필요가 있음
+>>>>>>> Stashed changes
       case "about":
         return <AboutPage />;
       case "projects":
